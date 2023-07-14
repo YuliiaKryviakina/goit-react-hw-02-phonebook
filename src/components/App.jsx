@@ -1,4 +1,14 @@
-export const App = () => {
+import React, { Component } from "react";
+import { nanoid } from "nanoid";
+import { ContactForm } from "./ContactForm/ContactForm";
+
+export class App extends Component {
+  state = {
+  contacts: [],
+  name: ''
+}
+
+  render() {
   return (
     <div
       style={{
@@ -10,7 +20,11 @@ export const App = () => {
         color: '#010101'
       }}
     >
-      React homework template
+      <h1>Phonebook</h1>
+      <ContactForm/>
+      
     </div>
   );
+}
+  
 };
