@@ -1,32 +1,39 @@
-import React, { Component } from 'react';
-import css from './ContactForm.module.css';
-import propTypes from 'prop-types';
+import React, { Component } from "react";
+import css from "./ContactForm.module.css";
+// import propTypes from "prop-types";
 
 export class ContactForm extends Component {
   state = {
-    contacts: [],
-    name: '',
-    number: '',
+    name: "",
+    number: "",
   };
 
-  handleChange = e => {
+  handleSubmit = (e) => {
+    e.preventDefault();
+    const { name, number } = this.state;
+
+    if (name !== "" && number !== "") {
+      const newContact = this.state;
+      this.props.onSubmit(newContact);
+    }
+    this.reset();
+  };
+
+  reset = () => {
+    this.setState({ name: "", number: "" });
+  };
+
+  handleChange = (e) => {
     const { name, value } = e.target;
     this.setState({ [name]: value });
   };
 
-  handleSubmit = e => {
-    e.preventDefault();
-    const form = e.currentTarget;
-    this.props.handleSubmit(this.state);
-    form.reset();
-  };
-
   render() {
-    const { name, number } = this.state;
-
     return (
       <form className={css.form} onSubmit={this.handleSubmit}>
-        <label className={css.formLabel}>Name</label>
+        <label className={css.formLabel} htmlFor="name">
+          Name:
+        </label>
         <input
           className={css.formName}
           type="text"
@@ -35,10 +42,13 @@ export class ContactForm extends Component {
           title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
           required
           placeholder="Enter name"
-          value={name}
+          value={this.state.name}
           onChange={this.handleChange}
+          id="name"
         />
-        <label className={css.formLabel}>Number</label>
+        <label className={css.formLabel} htmlFor="tel">
+          Number:
+        </label>
         <input
           className={css.formNumber}
           type="tel"
@@ -47,8 +57,9 @@ export class ContactForm extends Component {
           title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
           required
           placeholder="Enter phone number"
-          value={number}
+          value={this.state.number}
           onChange={this.handleChange}
+          id="tel"
         />
         <button className={css.formBtn} type="submit">
           Add contact
@@ -58,6 +69,6 @@ export class ContactForm extends Component {
   }
 }
 
-ContactForm.propTypes = {
-  handleSubmit: propTypes.func.isRequired,
-};
+// ContactForm.propTypes = {
+//   handleSubmit: propTypes.func.isRequired,
+// };
